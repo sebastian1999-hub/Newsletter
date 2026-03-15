@@ -12,7 +12,7 @@ const postsContainer = document.getElementById("postsContainer");
 const emptyState = document.getElementById("emptyState");
 const template = document.getElementById("postTemplate");
 const adminToggleBtn = document.getElementById("adminToggleBtn");
-const adminPanel = document.getElementById("adminPanel");
+const postBox = document.getElementById("postBox");
 const authState = document.getElementById("authState");
 const loginForm = document.getElementById("loginForm");
 const postForm = document.getElementById("postForm");
@@ -184,7 +184,7 @@ const initAuth = async () => {
 };
 
 adminToggleBtn.addEventListener("click", () => {
-  adminPanel.classList.toggle("hidden");
+  postBox.classList.toggle("open");
 });
 
 loginForm.addEventListener("submit", async (event) => {
@@ -259,6 +259,7 @@ postForm.addEventListener("submit", async (event) => {
   }
 
   postForm.reset();
+  postBox.classList.remove("open");
   await loadPosts();
 });
 

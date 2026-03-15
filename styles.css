@@ -66,9 +66,6 @@ h1 {
   max-width: 1100px;
   margin: 1.2rem auto 2rem;
   padding: 0 1rem;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1rem;
 }
 
 .column {
@@ -78,10 +75,6 @@ h1 {
 }
 
 .main-column {
-  padding: 1rem;
-}
-
-.side-column {
   padding: 1rem;
 }
 
@@ -159,6 +152,31 @@ h1 {
   padding: 0.8rem;
   margin-bottom: 1rem;
   background: #fff6e7;
+}
+
+.notice-box.collapsible {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-8px);
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition:
+    max-height 360ms ease,
+    opacity 260ms ease,
+    transform 360ms ease,
+    margin 360ms ease,
+    padding 360ms ease;
+}
+
+.notice-box.collapsible.open {
+  max-height: 1000px;
+  opacity: 1;
+  transform: translateY(0);
+  margin-bottom: 1rem;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
 }
 
 .notice-box h3,
@@ -241,10 +259,6 @@ textarea {
 }
 
 @media (max-width: 900px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
   .posts-grid {
     columns: 1;
   }

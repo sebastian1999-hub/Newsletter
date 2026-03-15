@@ -26,57 +26,55 @@
 
     <main class="layout">
       <section class="column main-column">
+        <div id="postBox" class="notice-box collapsible">
+          <h3>Post</h3>
+
+          <section id="adminPanel" class="admin-panel" aria-live="polite">
+            <h3>Panel de redaccion</h3>
+
+            <div id="authState" class="auth-state">No has iniciado sesion.</div>
+
+            <form id="loginForm" class="stack-form">
+              <label for="email">Email admin</label>
+              <input id="email" type="email" placeholder="admin@ejemplo.com" required />
+
+              <label for="password">Contrasena</label>
+              <input id="password" type="password" required />
+
+              <button type="submit" class="btn btn-ink">Entrar</button>
+            </form>
+
+            <form id="postForm" class="stack-form hidden">
+              <label for="title">Titular</label>
+              <input id="title" type="text" maxlength="120" required />
+
+              <label for="excerpt">Entradilla</label>
+              <textarea
+                id="excerpt"
+                rows="3"
+                maxlength="220"
+                placeholder="Resumen corto"
+                required
+              ></textarea>
+
+              <label for="content">Contenido</label>
+              <textarea id="content" rows="8" required></textarea>
+
+              <label for="image">Foto (opcional)</label>
+              <input id="image" type="file" accept="image/*" />
+
+              <button type="submit" class="btn btn-accent">Publicar noticia</button>
+              <button id="logoutBtn" type="button" class="btn btn-ghost">Cerrar sesion</button>
+            </form>
+          </section>
+        </div>
+
         <h2 class="section-title">Ultimos titulares</h2>
         <div id="postsContainer" class="posts-grid"></div>
         <p id="emptyState" class="empty-state hidden">
           Aun no hay publicaciones. El admin puede crear la primera noticia.
         </p>
       </section>
-
-      <aside class="column side-column">
-        <div class="notice-box">
-          <h3>Tablon</h3>
-        </div>
-
-        <section id="adminPanel" class="admin-panel hidden" aria-live="polite">
-          <h3>Panel de redaccion</h3>
-
-          <div id="authState" class="auth-state">No has iniciado sesion.</div>
-
-          <form id="loginForm" class="stack-form">
-            <label for="email">Email admin</label>
-            <input id="email" type="email" placeholder="admin@ejemplo.com" required />
-
-            <label for="password">Contrasena</label>
-            <input id="password" type="password" required />
-
-            <button type="submit" class="btn btn-ink">Entrar</button>
-          </form>
-
-          <form id="postForm" class="stack-form hidden">
-            <label for="title">Titular</label>
-            <input id="title" type="text" maxlength="120" required />
-
-            <label for="excerpt">Entradilla</label>
-            <textarea
-              id="excerpt"
-              rows="3"
-              maxlength="220"
-              placeholder="Resumen corto"
-              required
-            ></textarea>
-
-            <label for="content">Contenido</label>
-            <textarea id="content" rows="8" required></textarea>
-
-            <label for="image">Foto (opcional)</label>
-            <input id="image" type="file" accept="image/*" />
-
-            <button type="submit" class="btn btn-accent">Publicar noticia</button>
-            <button id="logoutBtn" type="button" class="btn btn-ghost">Cerrar sesion</button>
-          </form>
-        </section>
-      </aside>
     </main>
 
     <template id="postTemplate">
