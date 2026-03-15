@@ -1,45 +1,4 @@
-        <tr>
-          <td style="padding:24px;">
-            <h2 style="margin:0 0 12px; font-size:24px; line-height:1.3;">Confirma tu correo</h2>
-            <p style="margin:0 0 12px; font-size:16px; line-height:1.6;">
-              ¡Gracias por registrarte! Solo falta un paso para activar tu cuenta.
-            </p>
-            <p style="margin:0 0 22px; font-size:16px; line-height:1.6;">
-              Pulsa este botón para confirmar tu email y empezar a comentar con tu perfil.
-            </p>
-
-            <table role="presentation" cellspacing="0" cellpadding="0" style="margin:0 0 22px;">
-              <tr>
-                <td align="center" style="background:#9f2b1f; border:1px solid #7b1f16;">
-                  <a href="{{ .ConfirmationURL }}" style="display:inline-block; padding:12px 20px; color:#fff3ee; text-decoration:none; font-weight:bold; font-size:15px;">
-                    Confirmar mi cuenta
-                  </a>
-                </td>
-              </tr>
-            </table>
-
-            <p style="margin:0 0 8px; font-size:14px; line-height:1.5; color:#4f4a3f;">
-              Si el botón no funciona, copia y pega este enlace en tu navegador:
-            </p>
-            <p style="margin:0 0 18px; font-size:13px; line-height:1.6; word-break:break-all;">
-              <a href="{{ .ConfirmationURL }}" style="color:#1f1d19;">{{ .ConfirmationURL }}</a>
-            </p>
-
-            <p style="margin:0; font-size:13px; line-height:1.6; color:#4f4a3f;">
-              Si tú no creaste esta cuenta, puedes ignorar este correo.
-            </p>
-          </td>
-        </tr>
-
-        <tr>
-          <td style="padding:14px 24px; border-top:1px solid #c4b79a; background:#efe4cc; font-size:12px; color:#4f4a3f; text-align:center;">
-            La Gaceta del Piso
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table><!doctype html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -69,12 +28,25 @@
 
     <main class="layout">
       <section class="column main-column auth-column" style="text-align: center">
-        <h2 class="section-title">Correo confirmado</h2>
-        <p>Tu cuenta ya está validada. Ya puedes iniciar sesión y comentar con tu perfil.</p>
+        <h2 id="confirmTitle" class="section-title">Correo confirmado</h2>
+        <p id="confirmMessage">Tu cuenta ya está validada. Ya puedes iniciar sesión y comentar con tu perfil.</p>
         <p>
           <a class="btn btn-accent" href="./login.html">Ir a iniciar sesión</a>
         </p>
       </section>
     </main>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const errorCode = params.get("error_code");
+      const confirmTitle = document.getElementById("confirmTitle");
+      const confirmMessage = document.getElementById("confirmMessage");
+
+      if (errorCode === "otp_expired") {
+        confirmTitle.textContent = "Enlace ya usado o caducado";
+        confirmMessage.textContent =
+          "Este enlace de confirmacion ya no es valido. Si ya confirmaste antes, puedes iniciar sesion normalmente.";
+      }
+    </script>
   </body>
 </html>
