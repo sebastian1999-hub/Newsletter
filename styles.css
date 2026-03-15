@@ -140,11 +140,13 @@ h1 {
   margin: 0 0 0.5rem;
   font-style: italic;
   color: var(--muted-ink);
+  white-space: pre-line;
 }
 
 .post-content {
   margin: 0;
   line-height: 1.52;
+  white-space: pre-line;
 }
 
 .notice-box {
