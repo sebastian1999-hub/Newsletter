@@ -1,0 +1,80 @@
+        <tr>
+          <td style="padding:24px;">
+            <h2 style="margin:0 0 12px; font-size:24px; line-height:1.3;">Confirma tu correo</h2>
+            <p style="margin:0 0 12px; font-size:16px; line-height:1.6;">
+              ¡Gracias por registrarte! Solo falta un paso para activar tu cuenta.
+            </p>
+            <p style="margin:0 0 22px; font-size:16px; line-height:1.6;">
+              Pulsa este botón para confirmar tu email y empezar a comentar con tu perfil.
+            </p>
+
+            <table role="presentation" cellspacing="0" cellpadding="0" style="margin:0 0 22px;">
+              <tr>
+                <td align="center" style="background:#9f2b1f; border:1px solid #7b1f16;">
+                  <a href="{{ .ConfirmationURL }}" style="display:inline-block; padding:12px 20px; color:#fff3ee; text-decoration:none; font-weight:bold; font-size:15px;">
+                    Confirmar mi cuenta
+                  </a>
+                </td>
+              </tr>
+            </table>
+
+            <p style="margin:0 0 8px; font-size:14px; line-height:1.5; color:#4f4a3f;">
+              Si el botón no funciona, copia y pega este enlace en tu navegador:
+            </p>
+            <p style="margin:0 0 18px; font-size:13px; line-height:1.6; word-break:break-all;">
+              <a href="{{ .ConfirmationURL }}" style="color:#1f1d19;">{{ .ConfirmationURL }}</a>
+            </p>
+
+            <p style="margin:0; font-size:13px; line-height:1.6; color:#4f4a3f;">
+              Si tú no creaste esta cuenta, puedes ignorar este correo.
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:14px 24px; border-top:1px solid #c4b79a; background:#efe4cc; font-size:12px; color:#4f4a3f; text-align:center;">
+            La Gaceta del Piso
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table><!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Correo Confirmado | La Gaceta del Piso</title>
+    <link rel="icon" type="image/png" href="./periodico%20(1).png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="paper-noise"></div>
+
+    <header class="masthead">
+      <p class="edition">Edición de compañeros</p>
+      <h1>La Gaceta del Piso</h1>
+      <p class="subtitle">Confirmación de cuenta</p>
+      <nav class="top-nav" aria-label="Principal">
+        <a class="nav-link" href="./index.html">Inicio</a>
+        <a class="nav-link" href="./login.html">Iniciar sesión</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section class="column main-column auth-column" style="text-align: center">
+        <h2 class="section-title">Correo confirmado</h2>
+        <p>Tu cuenta ya está validada. Ya puedes iniciar sesión y comentar con tu perfil.</p>
+        <p>
+          <a class="btn btn-accent" href="./login.html">Ir a iniciar sesión</a>
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

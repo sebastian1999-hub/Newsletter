@@ -2,6 +2,7 @@ const SUPABASE_URL = "https://hzsxlpzsknysjdpodpgg.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_xNazlHkI4DFI175UfCRt5Q_-EXtNKkL";
 const POST_IMAGES_BUCKET = "post-images";
 const PROFILE_IMAGES_BUCKET = "profile-images";
+const EMAIL_CONFIRM_REDIRECT_PATH = "/confirmado.html";
 
 // This email gates who can publish posts after login.
 const ADMIN_EMAIL = "admin@rsp.com";
@@ -597,10 +598,16 @@ if (registerForm) {
       return;
     }
 
+    const hasValidOrigin = Boolean(window.location.origin && window.location.origin !== "null");
+    const emailRedirectTo = hasValidOrigin
+      ? `${window.location.origin}${EMAIL_CONFIRM_REDIRECT_PATH}`
+      : undefined;
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
+        ...(emailRedirectTo ? { emailRedirectTo } : {}),
         data: {
           display_name: displayName,
           avatar_url: DEFAULT_AVATAR
