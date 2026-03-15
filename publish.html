@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Publicar | La Gaceta del Piso</title>
+    <link rel="icon" type="image/png" href="./periodico%20(1).png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="paper-noise"></div>
+
+    <header class="masthead">
+      <p class="edition">Edición de compañeros</p>
+      <h1>La Gaceta del Piso</h1>
+      <p class="subtitle">Panel de publicación</p>
+      <nav class="top-nav" aria-label="Principal">
+        <a class="nav-link" href="./index.html">Inicio</a>
+        <a id="authNavLink" class="nav-link" href="./login.html">Iniciar sesión</a>
+        <a id="adminPublishLink" class="nav-link admin-only hidden active" href="./publish.html">Publicar</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section class="column main-column">
+        <h2 class="section-title">Publicar noticia</h2>
+
+        <section id="adminPanel" class="admin-panel" aria-live="polite">
+          <p id="authState" class="auth-state">Verificando sesión...</p>
+
+          <form id="postForm" class="stack-form hidden">
+            <label for="title">Titular</label>
+            <input id="title" type="text" maxlength="120" required />
+
+            <label for="excerpt">Entradilla</label>
+            <textarea
+              id="excerpt"
+              rows="3"
+              maxlength="220"
+              placeholder="Resumen corto"
+              required
+            ></textarea>
+
+            <label for="content">Contenido</label>
+            <textarea id="content" rows="8" required></textarea>
+
+            <label for="image">Foto (opcional)</label>
+            <input id="image" type="file" accept="image/*" />
+            <img id="postImagePreview" class="post-image-preview hidden" alt="Previsualizacion de la foto" />
+
+            <button type="submit" class="btn btn-accent">Publicar noticia</button>
+          </form>
+
+          <a id="loginRedirectLink" class="btn btn-ink hidden" href="./login.html">Ir a iniciar sesión</a>
+          <button id="logoutBtn" type="button" class="btn btn-logout hidden">Cerrar sesión</button>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
