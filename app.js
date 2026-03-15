@@ -2,7 +2,8 @@ const SUPABASE_URL = "https://hzsxlpzsknysjdpodpgg.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_xNazlHkI4DFI175UfCRt5Q_-EXtNKkL";
 const POST_IMAGES_BUCKET = "post-images";
 const PROFILE_IMAGES_BUCKET = "profile-images";
-const EMAIL_CONFIRM_REDIRECT_PATH = "/confirmado.html";
+const APP_BASE_PATH = window.location.hostname.endsWith("github.io") ? "/Newsletter" : "";
+const EMAIL_CONFIRM_REDIRECT_PATH = `${APP_BASE_PATH}/confirmado.html`;
 
 // This email gates who can publish posts after login.
 const ADMIN_EMAIL = "admin@rsp.com";
