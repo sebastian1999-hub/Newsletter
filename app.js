@@ -24,8 +24,9 @@ const registerPanel = document.getElementById("registerPanel");
 const registerForm = document.getElementById("registerForm");
 const postForm = document.getElementById("postForm");
 const logoutBtn = document.getElementById("logoutBtn");
-const imageInput = document.getElementById("image");
+const mediaInput = document.getElementById("media");
 const postImagePreview = document.getElementById("postImagePreview");
+const postVideoPreview = document.getElementById("postVideoPreview");
 const adminPublishLink = document.getElementById("adminPublishLink");
 const authNavLink = document.getElementById("authNavLink");
 const loginRedirectLink = document.getElementById("loginRedirectLink");
@@ -116,6 +117,25 @@ const normalizeFileName = (fileName) => {
   return fileName.replace(/[^a-zA-Z0-9._-]/g, "-");
 };
 
+const isVideoMimeType = (mimeType) => {
+  return typeof mimeType === "string" && mimeType.startsWith("video/");
+};
+
+const isVideoUrl = (url) => {
+  if (typeof url !== "string" || !url.trim()) {
+    return false;
+  }
+
+  const videoExtensionRegex = /\.(mp4|webm|ogg|mov|m4v)(\?|#|$)/i;
+
+  try {
+    const parsedUrl = new URL(url);
+    return videoExtensionRegex.test(parsedUrl.pathname);
+  } catch (_error) {
+    return videoExtensionRegex.test(url);
+  }
+};
+
 const getProfileName = (user) => {
   const meta = user?.user_metadata || {};
   const maybeName = meta.display_name || meta.full_name || meta.name;
@@ -188,8 +208,9 @@ const setAuthMode = (mode) => {
   showRegisterFormBtn.setAttribute("aria-selected", String(!showLogin));
 };
 
-const uploadPostImage = async (file, userId) => {
-  const fileName = normalizeFileName(file.name || "photo.jpg");
+const uploadPostMedia = async (file, userId) => {
+  const fallbackFileName = isVideoMimeType(file?.type) ? "video.mp4" : "photo.jpg";
+  const fileName = normalizeFileName(file?.name || fallbackFileName);
   const filePath = `${userId}/${Date.now()}-${fileName}`;
 
   const { error: uploadError } = await supabase.storage
@@ -353,12 +374,32 @@ const renderPosts = (posts, commentsByPost) => {
     const node = template.content.cloneNode(true);
     const card = node.querySelector(".post-card");
     const imageElement = node.querySelector(".post-image");
+    const videoElement = node.querySelector(".post-video");
 
     if (post.image_url) {
-      imageElement.src = post.image_url;
-      imageElement.classList.remove("hidden");
+      if (isVideoUrl(post.image_url) && videoElement) {
+        videoElement.src = post.image_url;
+        videoElement.classList.remove("hidden");
+        imageElement.classList.add("hidden");
+        imageElement.removeAttribute("src");
+      } else {
+        imageElement.src = post.image_url;
+        imageElement.classList.remove("hidden");
+        if (videoElement) {
+          videoElement.classList.add("hidden");
+          videoElement.removeAttribute("src");
+        }
+      }
+
       card.classList.remove("no-image");
     } else {
+      imageElement.classList.add("hidden");
+      imageElement.removeAttribute("src");
+      if (videoElement) {
+        videoElement.classList.add("hidden");
+        videoElement.removeAttribute("src");
+      }
+
       card.classList.add("no-image");
     }
 
@@ -639,7 +680,7 @@ if (postForm) {
     const title = document.getElementById("title").value.trim();
     const excerpt = document.getElementById("excerpt").value.trim();
     const content = document.getElementById("content").value.trim();
-    const imageFile = imageInput?.files?.[0] || null;
+    const mediaFile = mediaInput?.files?.[0] || null;
 
     const {
       data: { user }
@@ -650,18 +691,18 @@ if (postForm) {
       return;
     }
 
-    let imageUrl = null;
+    let mediaUrl = null;
 
-    if (imageFile) {
+    if (mediaFile) {
       try {
-        imageUrl = await uploadPostImage(imageFile, user.id);
+        mediaUrl = await uploadPostMedia(mediaFile, user.id);
       } catch (error) {
         if (error?.message?.includes("Bucket not found")) {
           showToast("No existe el bucket 'post-images'. Ejecuta de nuevo supabase.sql para crearlo.", "error");
           return;
         }
 
-        showToast(`No se pudo subir la foto: ${error.message}`, "error");
+        showToast(`No se pudo subir el archivo: ${error.message}`, "error");
         return;
       }
     }
@@ -670,7 +711,7 @@ if (postForm) {
       title,
       excerpt,
       content,
-      image_url: imageUrl,
+      image_url: mediaUrl,
       author_email: user.email
     });
 
@@ -690,13 +731,19 @@ if (postForm) {
       postImagePreview.removeAttribute("src");
     }
 
+    if (postVideoPreview) {
+      postVideoPreview.classList.add("hidden");
+      postVideoPreview.removeAttribute("src");
+      postVideoPreview.load();
+    }
+
     if (postPreviewUrl) {
       URL.revokeObjectURL(postPreviewUrl);
       postPreviewUrl = null;
     }
 
-    if (imageInput) {
-      imageInput.value = "";
+    if (mediaInput) {
+      mediaInput.value = "";
     }
 
     showToast("Noticia publicada correctamente.", "success");
@@ -797,13 +844,16 @@ if (profileAvatarInput && profileAvatarPreview) {
   });
 }
 
-if (imageInput && postImagePreview) {
-  imageInput.addEventListener("change", () => {
-    const file = imageInput.files?.[0] || null;
+if (mediaInput && postImagePreview && postVideoPreview) {
+  mediaInput.addEventListener("change", () => {
+    const file = mediaInput.files?.[0] || null;
 
     if (!file) {
       postImagePreview.classList.add("hidden");
       postImagePreview.removeAttribute("src");
+      postVideoPreview.classList.add("hidden");
+      postVideoPreview.removeAttribute("src");
+      postVideoPreview.load();
 
       if (postPreviewUrl) {
         URL.revokeObjectURL(postPreviewUrl);
@@ -818,8 +868,20 @@ if (imageInput && postImagePreview) {
     }
 
     postPreviewUrl = URL.createObjectURL(file);
+
+    if (isVideoMimeType(file.type)) {
+      postVideoPreview.src = postPreviewUrl;
+      postVideoPreview.classList.remove("hidden");
+      postImagePreview.classList.add("hidden");
+      postImagePreview.removeAttribute("src");
+      return;
+    }
+
     postImagePreview.src = postPreviewUrl;
     postImagePreview.classList.remove("hidden");
+    postVideoPreview.classList.add("hidden");
+    postVideoPreview.removeAttribute("src");
+    postVideoPreview.load();
   });
 }
 

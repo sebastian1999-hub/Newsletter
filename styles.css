@@ -160,6 +160,15 @@ h1 {
   filter: saturate(0.9) contrast(1.02);
 }
 
+.post-video {
+  width: 100%;
+  margin: 0.25rem 0 0.6rem;
+  border: 1px solid var(--line);
+  max-height: none;
+  height: auto;
+  background: #000;
+}
+
 .post-excerpt {
   margin: 0 0 0.5rem;
   font-style: italic;
@@ -385,6 +394,13 @@ h1 {
   background: #fff;
 }
 
+.post-video-preview {
+  width: min(100%, 360px);
+  max-height: 220px;
+  border: 1px solid var(--line);
+  background: #000;
+}
+
 .toast-stack {
   position: fixed;
   top: 1rem;
@@ -556,6 +572,13 @@ input[type="file"]:active::file-selector-button {
     width: 100%;
     max-height: 300px;
     object-fit: cover;
+  }
+
+  .post-card .post-video {
+    grid-area: image;
+    margin: 0;
+    width: 100%;
+    max-height: 300px;
   }
 
   .post-card .post-top-text {
